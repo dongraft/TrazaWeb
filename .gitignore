@@ -1,1 +1,11 @@
 .idea/
+_private/
+collectstatic/
+.editorconfig
+*.pyc
+*.db
+*.sqlite
+.DS_Store
+*.sublime-workspace
+_private
+db.sqlite3
