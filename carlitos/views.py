@@ -22,8 +22,10 @@ def receive(request):
             'max_t': request.POST.get('max_t',None),
             'stdev': request.POST.get('stdev',None),
         }
-        traza = Traza.objects.create(**kwargs)
-        ret = '{"status": "success"}' if traza else '{"status": "fail"}'
-        return HttpResponse(ret, content_type="application/json")
+        try:
+            traza = Traza.objects.create(**kwargs)
+        except:
+            return HttpResponse('{"status": "fail"}', content_type="application/json")
+        return HttpResponse('{"status": "success"}', content_type="application/json")
     else:
         return HttpResponseNotAllowed(['POST'])
