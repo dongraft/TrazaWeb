@@ -1,6 +1,7 @@
 from django.db import models
 
 class Traza(models.Model):
+    mobile_id = models.CharField(max_length=16)
     host = models.CharField(max_length=64)
     ip = models.CharField(max_length=64)
     lat = models.CharField(max_length=64)
