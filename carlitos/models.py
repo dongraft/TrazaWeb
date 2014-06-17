@@ -4,6 +4,7 @@ class Traza(models.Model):
     mobile_id = models.CharField(max_length=16)
     timestamp = models.CharField(max_length=64)
     host = models.CharField(max_length=64)
+    host_ip = models.CharField(max_length=15)
     p_transmitted = models.CharField(max_length=64)
     p_received = models.CharField(max_length=64)
     p_lost = models.CharField(max_length=64)
@@ -19,3 +20,4 @@ class Traza(models.Model):
 
     def __unicode__(self):
         return str(self.created_at)
+
