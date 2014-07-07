@@ -15,7 +15,7 @@ def receive(request):
                 'mobile_id': line[0],
                 'timestamp': line[1],
                 'host': line[2],
-                'host_ip': line[3]
+                'host_ip': line[3],
                 'p_transmitted': line[4],
                 'p_received': line[5],
                 'p_lost': line[6],
@@ -27,6 +27,7 @@ def receive(request):
                 'lat': line[12],
                 'lng': line[13],
                 'accu': line[14],
+                'networktype': line[15],
             }
             try:
                 traza = Traza.objects.create(**kwargs)

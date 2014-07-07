@@ -16,6 +16,8 @@ class Traza(models.Model):
     lat = models.CharField(max_length=64)
     lng = models.CharField(max_length=64)
     accu = models.CharField(max_length=64)
+    networktype = models.CharField(max_length=2)
+    compania = models.CharField(max_length=8)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
