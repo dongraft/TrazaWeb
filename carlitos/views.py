@@ -28,6 +28,7 @@ def receive(request):
                 'lng': line[13],
                 'accu': line[14],
                 'networktype': line[15],
+                'compania': line[16],
             }
             try:
                 traza = Traza.objects.create(**kwargs)
