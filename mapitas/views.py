@@ -24,7 +24,7 @@ def get_data(request):
             obj = {}
             obj['lat'] = float(traza.lat)
             obj['lng'] = float(traza.lng)
-            val = int(locale.atof(traza.avg_t))
+            val = locale.atof(traza.avg_t)
             obj['val'] = val
             data.append(obj)
             vals.append(val)

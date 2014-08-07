@@ -3,7 +3,7 @@
 
 {% block jumbo %}
 <div class="jumbotron">
-  <div class="container">
+  <!-- <div class="container"> -->
     <div id="map" style="height: 800px"></div>
     <script>
 
@@ -18,8 +18,9 @@
 
         var cfg = {
           // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-          "radius": 0.01,
-          "maxOpacity": .8,
+          "radius": 0.004,
+          "maxOpacity": .9,
+          "minOpacity": .08,
           // scales the radius based on map zoom
           "scaleRadius": true,
           // if set to false the heatmap uses the global maximum for colorization
@@ -39,21 +40,21 @@
 
         var map = new L.Map('map', {
           center: new L.LatLng(-33.452135, -70.660207),
-          zoom: 15,
+          zoom: 12,
           layers: [baseLayer, heatmapLayer]
         });
 
         $.getJSON('/data/',
             function(response){
+                console.log(response);
                 heatmapLayer.setData(response);
-            }
-        );
+            });
 
         // make accessible for debugging
         layer = heatmapLayer;
     }
     </script>
-  </div>
+  <!-- </div> -->
 </div>
 {% endblock %}
 
