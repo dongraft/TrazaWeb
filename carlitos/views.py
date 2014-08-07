@@ -15,7 +15,7 @@ def receive(request):
                 'mobile_id': line[0],
                 'timestamp': line[1],
                 'host': line[2],
-                'host_ip': line[3]
+                'host_ip': line[3],
                 'p_transmitted': line[4],
                 'p_received': line[5],
                 'p_lost': line[6],

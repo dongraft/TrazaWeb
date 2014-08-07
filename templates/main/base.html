@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="TrazaWeb for TrazaApp">
+    <meta name="author" content="twitter.com/dongraft">
+    <!-- <link rel="shortcut icon" href="{% static "favicon.ico" %}"> -->
+
+    <title>Traza {% block title %}{% endblock %}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static "css/jumbotron.css" %}">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{% static "js/heatmap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gmaps-heatmap.js" %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button> -->
+          <a class="navbar-brand" href="#"><img src="{% static "img/hiresicon.png" %}" height="42">Traza</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <!-- <form class="navbar-form navbar-right" role="form">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form> -->
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    {% block jumbo %}
+    {% endblock %}
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+      <hr>
+
+      <footer>
+        <p>&copy; Traza 2014</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>

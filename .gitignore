@@ -4,6 +4,7 @@ collectstatic/
 .editorconfig
 *.pyc
 *.db
+db.sqlite3.bak
 *.sqlite
 .DS_Store
 *.sublime-workspace
