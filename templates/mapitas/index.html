@@ -2,13 +2,12 @@
 {% block title %}Mapa{% endblock %}
 
 {% block jumbo %}
-<div class="jumbotron">
+<div class="jumbotron" style="padding-top: 24px; padding-bottom: 24px; padding: 20px;">
   <!-- <div class="container"> -->
-    <div id="map" style="height: 800px"></div>
+    <div id="map" style="height: 500px"></div>
     <script>
-
-    window.onload = function() {
-
+      var heatmapLayer;
+      window.onload = function() {
         var baseLayer = L.tileLayer(
           'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
@@ -36,7 +35,7 @@
         };
 
 
-        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer = new HeatmapOverlay(cfg);
 
         var map = new L.Map('map', {
           center: new L.LatLng(-33.452135, -70.660207),
@@ -60,8 +59,31 @@
 
 <!-- container -->
 {% block content %}
-<div class="starter-template">
-  <h1>Información vital</h1>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Hora</h3>
+    {% for key, value in times.items %}
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox_times" value="{{ value }}"> {{ key }}
+    </label>
+    {% endfor %}
+  </div>
+  <div class="col-md-4">
+    <h3>Compañía</h3>
+    {% for key, values in companies.items %}
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox_companies" value="{{ values }}"> {{ key }}
+    </label>
+    {% endfor %}
+  </div>
+  <div class="col-md-4">
+    <h3>Tipo de Red</h3>
+    {% for key, value in networktypes.items %}
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox_networktypes" value="{{ value }}"> {{ key }}
+    </label>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
 <!-- /container -->
