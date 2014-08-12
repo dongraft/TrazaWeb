@@ -1,93 +1,63 @@
 {% extends "main/base.html" %}
-{% block title %}Mapa{% endblock %}
-
-{% block jumbo %}
-<div class="jumbotron" style="padding-top: 24px; padding-bottom: 24px; padding: 20px;">
-  <!-- <div class="container"> -->
-  <div id="map" style="height: 500px"></div>
-  <script>
-    var heatmapLayer;
-    window.onload = function() {
-      var baseLayer = L.tileLayer(
-        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-          maxZoom: 18
-        }
-        );
-
-      var cfg = {
-          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-          "radius": 0.004,
-          "maxOpacity": .9,
-          "minOpacity": .1,
-          // scales the radius based on map zoom
-          "scaleRadius": true,
-          // if set to false the heatmap uses the global maximum for colorization
-          // if activated: uses the data maximum within the current map boundaries
-          //   (there will always be a red spot with useLocalExtremas true)
-          "useLocalExtrema": false,
-          // which field name in your data represents the latitude - default "lat"
-          latField: 'lat',
-          // which field name in your data represents the longitude - default "lng"
-          lngField: 'lng',
-          // which field name in your data represents the data value - default "value"
-          valueField: 'val'
-        };
-
-
-        heatmapLayer = new HeatmapOverlay(cfg);
-
-        var map = new L.Map('map', {
-          center: new L.LatLng(-33.452135, -70.660207),
-          zoom: 12,
-          layers: [baseLayer, heatmapLayer]
-        });
-
-        $.ajax({
-          type: "POST",
-          dataType: "json",
-          url: '/data/',
-          // data: data,
-          success: function(response){
-            console.log(response);
-            heatmapLayer.setData(response);
-          }
-        });
-
-        layer = heatmapLayer;
-      }
-    </script>
-    <!-- </div> -->
-  </div>
-  {% endblock %}
-
-  <!-- container -->
-  {% block content %}
-  <div class="row">
-    <div class="col-md-4">
-      <h3>Hora</h3>
-      {% for key, value in times.items %}
-      <label class="checkbox">
-        <input type="checkbox" class="checkbox_times" value="{{ value }}"> {{ key }}
-      </label>
-      {% endfor %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    {% block styles %}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
+    <link rel="stylesheet" href={% static "css/map.css" %} />
+    {% endblock %}
+</head>
+<body {% block ng-app %}ng-app="traza"{% endblock %}>
+    {% block content %}
+    <div id="map" ng-controller="MapController"></div>
+    <div id="traza-panel" class="row" ng-controller="PanelController">
+        <a class="brand" href="#">
+          <img src="{% static "img/hiresicon.png" %}" height="40">
+          Traza
+        </a>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Hora</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="time in filters.times">
+              <input class="filter-checkbox" type="checkbox" ng-model="time.checked" ng-change="updateFilters()"> <span class="filter-text">{$time.text$}</span></input>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Compañía</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="company in filters.companies">
+              <input class="filter-checkbox" type="checkbox" ng-model="company.checked" ng-change="updateFilters()"> <span class="filter-text">{$company.text$}</span></input>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Tipo de Red</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="networkType in filters.networkTypes">
+              <input class="filter-checkbox" type="checkbox" ng-model="networkType.checked" ng-change="updateFilters()"> <span class="filter-text">{$networkType.text$}</span></input>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="col-md-4">
-      <h3>Compañía</h3>
-      {% for key, values in companies.items %}
-      <label class="checkbox">
-        <input type="checkbox" class="checkbox_companies" value="{{ values }}"> {{ key }}
-      </label>
-      {% endfor %}
-    </div>
-    <div class="col-md-4">
-      <h3>Tipo de Red</h3>
-      {% for key, value in networktypes.items %}
-      <label class="checkbox">
-        <input type="checkbox" class="checkbox_networktypes" value="{{ value }}"> {{ key }}
-      </label>
-      {% endfor %}
-    </div>
-  </div>
-  {% endblock %}
-  <!-- /container -->
+    {% endblock %}
+    {% block footer_scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
+    <script type="text/javascript" src="{% static "js/heatmap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/leaflet-heatmap.js" %}"></script>
+    <script src={% static "js/map.js" %}></script>
+    {% endblock %}
+</body>
+</html> 
