@@ -66,5 +66,5 @@ def get_data(request):
         return HttpResponseNotAllowed(['GET'])
 
 
-def get_graphs(request):
-    pass
+def graphs(request):
+    return render(request, 'mapitas/graphs.html', {})

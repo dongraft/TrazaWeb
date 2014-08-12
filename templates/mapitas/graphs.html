@@ -1,18 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    {% block styles %}
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
-    <link rel="stylesheet" href={% static "css/map.css" %} />
-    {% endblock %}
-</head>
-<body {% block ng-app %}ng-app="traza"{% endblock %}>
-    {% block content %}
-    <div id="map" ng-controller="MapController"></div>
+{% block content %}
     <div id="traza-panel" class="row" ng-controller="PanelController">
         <a class="brand" href="#">
           <img src="{% static "img/hiresicon.png" %}" height="40">
@@ -49,13 +37,4 @@
           </div>
         </div>
     </div>
-    {% endblock %}
-    {% block footer_scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
-    <script type="text/javascript" src="{% static "js/heatmap.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/leaflet-heatmap.js" %}"></script>
-    <script src={% static "js/map.js" %}></script>
-    {% endblock %}
-</body>
-</html>
+{% endblock %}

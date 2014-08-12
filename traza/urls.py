@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^$', carlitos_views.receive, name='receive'),
     url(r'^stats/$', mapitas_views.stats, name='stats'),
     url(r'^data/$', mapitas_views.get_data, name='get_data'),
+    url(r'^graphs/$', mapitas_views.graphs, name='graphs'),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

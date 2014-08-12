@@ -119,6 +119,6 @@ traza.controller('PanelController', function($rootScope, $scope, $http) {
     };
 
     $scope.updateFilters = function(target) {
-        
+
     };
 });
