@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbid
 from django.shortcuts import render
 from django.db.models import Max
 from django.db.models import Min
+from django.views.decorators.csrf import csrf_exempt
 
 from carlitos.models import Traza
 
@@ -37,26 +38,33 @@ def stats(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-
+@csrf_exempt
 def get_data(request):
-    locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
-    res = {}
-    data = []
-    vals = []
-    trazas = Traza.objects.all()
-    for traza in trazas:
-        try:
-            obj = {}
-            obj['lat'] = float(traza.lat)
-            obj['lng'] = float(traza.lng)
-            val = locale.atof(traza.avg_t)
-            obj['val'] = val
-            data.append(obj)
-            vals.append(val)
-        except:
-            continue
-    res['data'] = data
-    res['max'] = max(vals)
-    res['min'] = min(vals)
-    # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
-    return HttpResponse(json.dumps(res), content_type='application/json')
+    if request.method == 'POST':
+        locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
+        res = {}
+        data = []
+        vals = []
+        trazas = Traza.objects.all()
+        for traza in trazas:
+            try:
+                obj = {}
+                obj['lat'] = float(traza.lat)
+                obj['lng'] = float(traza.lng)
+                val = locale.atof(traza.avg_t)
+                obj['val'] = val
+                data.append(obj)
+                vals.append(val)
+            except:
+                continue
+        res['data'] = data
+        res['max'] = max(vals)
+        res['min'] = min(vals)
+        # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
+        return HttpResponse(json.dumps(res), content_type='application/json')
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+def get_graphs(request):
+    pass
