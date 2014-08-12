@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Traza</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href={% static "css/base.css" %} />
+    <link rel="stylesheet" href={% static "css/map.css" %} />
+    {% block styles %}
+    {% endblock %}
+  </head>
+  <body {% block ng-app %}{% endblock %}>
+    <div class="container-fluid">
+      {% block right %}
+      {% endblock %}
+      <div id="traza-panel" class="row" ng-controller="PanelController">
+        <a class="brand" href="#">
+          <img src="{% static "img/hiresicon.png" %}" height="40">
+          Traza
+        </a>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Hora</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="time in filters.times">
+              <input class="filter-checkbox" type="checkbox" ng-model="time.checked" ng-change="updateFilters()"> <span class="filter-text">{$time.text$}</span></input>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Compañía</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="company in filters.companies">
+              <input class="filter-checkbox" type="checkbox" ng-model="company.checked" ng-change="updateFilters()"> <span class="filter-text">{$company.text$}</span></input>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Tipo de Red</h4>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="networkType in filters.networkTypes">
+              <input class="filter-checkbox" type="checkbox" ng-model="networkType.checked" ng-change="updateFilters()"> <span class="filter-text">{$networkType.text$}</span></input>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    {% block footer_scripts %}
+    {% endblock %}
+    <script src={% static "js/map.js" %}></script>
+  </body>
+</html>

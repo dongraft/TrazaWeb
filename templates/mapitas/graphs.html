@@ -1,45 +1,9 @@
-{% extends "main/base.html" %}
+{% extends "main/base_leftmenu.html" %}
 {% load static %}
 
 <body {% block ng-app %}ng-app="traza"{% endblock %}>
-    {% block content %}
-    <div id="map"></div>
-    <div id="traza-panel" class="row" ng-controller="PanelController">
-        <a class="brand" href="#">
-          <img src="{% static "img/hiresicon.png" %}" height="40">
-          Traza
-        </a>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>Hora</h4>
-          </div>
-          <div class="panel-body">
-            <div ng-repeat="time in filters.times">
-              <input class="filter-checkbox" type="checkbox" ng-model="time.checked" ng-change="updateFilters()"> <span class="filter-text">{$time.text$}</span></input>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>Compañía</h4>
-          </div>
-          <div class="panel-body">
-            <div ng-repeat="company in filters.companies">
-              <input class="filter-checkbox" type="checkbox" ng-model="company.checked" ng-change="updateFilters()"> <span class="filter-text">{$company.text$}</span></input>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>Tipo de Red</h4>
-          </div>
-          <div class="panel-body">
-            <div ng-repeat="networkType in filters.networkTypes">
-              <input class="filter-checkbox" type="checkbox" ng-model="networkType.checked" ng-change="updateFilters()"> <span class="filter-text">{$networkType.text$}</span></input>
-            </div>
-          </div>
-        </div>
-    </div>
+    {% block right %}
+    <div id="graphs"></div>
     {% endblock %}
     {% block footer_scripts %}
     {% endblock %}
