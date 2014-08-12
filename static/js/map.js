@@ -5,7 +5,7 @@ var traza = angular.module('traza', [], function($interpolateProvider) {
 
 traza.controller('MapController', function($rootScope, $scope, $http) {
 
-    $scope.map = L.mapbox.map('map', 'lbenitez000.ipghj3fa', {
+    $scope.map = L.mapbox.map('map', 'traza.j760in07', {
         zoomControl: true,
         zoomControlPosition: 'top-left',
         center: [-33.43782061488737, -70.65045297145844],
