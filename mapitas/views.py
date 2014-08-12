@@ -40,7 +40,7 @@ def stats(request):
 
 @csrf_exempt
 def get_data(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
         res = {}
         data = []
@@ -63,7 +63,7 @@ def get_data(request):
         # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
         return HttpResponse(json.dumps(res), content_type='application/json')
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['GET'])
 
 
 def get_graphs(request):
