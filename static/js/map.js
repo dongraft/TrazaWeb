@@ -44,76 +44,84 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         times: [
             {
                 text: "Mañana (6:00 - 11:59)",
-                value: 1,
+                value: 6,
                 checked: true
             },
             {
                 text: "Tarde (12:00 - 19:59)",
-                value: 2,
+                value: 12,
                 checked: true
             },
             {
                 text: "Noche (20:00 - 5:59)",
-                value: 3,
+                value: 20,
                 checked: true
             }
         ],
         companies: [
             {
                 text: "Claro",
-                value: 1,
+                value: '0',
                 checked: true
             },
             {
                 text: "Entel",
-                value: 2,
+                value: '1',
                 checked: true
             },
             {
                 text: "Movistar",
-                value: 3,
+                value: '2',
                 checked: true
             },
             {
                 text: "Nextel",
-                value: 4,
+                value: '3',
                 checked: true
             },
             {
                 text: "Virgin Mobile",
-                value: 5,
+                value: '4',
                 checked: true
             },
             {
                 text: "VTR",
-                value: 6,
+                value: '5',
                 checked: true
             }
         ],
         networkTypes: [
             {
                 text: "EDGE",
-                value: null,
+                value: 2,
                 checked: true
-            },
-            {
+            },{
                 text: "GPRS",
-                value: null,
+                value: 1,
                 checked: true
-            },
-            {
-                text: "3G",
-                value: null,
+            },{
+                text: "UMTS",
+                value: 3,
                 checked: true
-            },
-            {
-                text: "3.5G",
-                value: null,
+            },{
+                text: "HSPA",
+                value: 10,
                 checked: true
-            },
-            {
-                text: "4G LTE",
-                value: null,
+            },{
+                text: "HSPA+",
+                value: 15,
+                checked: true
+            },{
+                text: "LTE",
+                value: 13,
+                checked: true
+            },{
+                text: "3G/HSDPA",
+                value: 8,
+                checked: true
+            },{
+                text: "HSUPA",
+                value: 9,
                 checked: true
             }
         ],

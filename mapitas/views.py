@@ -13,28 +13,7 @@ from carlitos.models import Traza
 # Create your views here.
 def stats(request):
     if request.method == 'GET':
-        companies = {
-            'Claro': '0\n',
-            'Entel': '1\n',
-            'Movistar': '2\n',
-            'Nextel': '3\n',
-            'Virgin Mobile': '4\n',
-            'VTR': '5\n',
-        }
-        networktypes = {
-            'EDGE': '1', '3G': '2', '3.5G': '3', '4G': '3',
-        }
-        times = {
-            'Mañana (6am a 2pm)': '6',
-            'Tarde (2pm a 10pm)': '14',
-            'Noche (10pm a 6am)': '22',
-        }
-        data = {
-            'companies': companies,
-            'networktypes': networktypes,
-            'times': times,
-        }
-        return render(request, 'mapitas/index.html', data)
+        return render(request, 'mapitas/index.html', {})
     else:
         return HttpResponseNotAllowed(['GET'])
 
@@ -45,29 +24,46 @@ def get_data(request):
         res = {}
         data = []
         vals = []
-        
-        companies = request.GET.get('companies', None)
-        networktypes = request.GET.get('networktypes', None)
-        times = request.GET.get('times', None)
+        tmp = []
+        companies = None
+        networktypes = None
 
-        s = 1/0
-        trazas = Traza.objects.all()
+        prefilters = request.GET.get('data', None)
+        if prefilters:
+            filters = json.loads(prefilters) if prefilters else None
+            companies = [str(company['value'])+"\n" for company in filters['companies'] if company['checked']]
+            networktypes = [str(network_type['value']) for network_type in filters['networkTypes'] if network_type['checked']]
+            times = [time['value'] for time in filters['times'] if time['checked']]
+        if companies and networktypes:
+            trazas = Traza.objects.filter(compania__in=companies, networktype__in=networktypes)
+        else:
+            trazas = Traza.objects.all()
+
+        # for traza in Traza.objects.all():
+        #     val = locale.atof(traza.avg_t.replace(',',''))
+        #     tmp.append(val)
+
         for traza in trazas:
             try:
                 obj = {}
                 obj['lat'] = float(traza.lat)
                 obj['lng'] = float(traza.lng)
-                val = locale.atof(traza.avg_t)
+                val = locale.atof(traza.avg_t.replace(',',''))
                 obj['val'] = val
                 data.append(obj)
-                vals.append(val)
+                # vals.append(val)
             except:
                 continue
         res['data'] = data
-        res['max'] = max(vals)
-        res['min'] = min(vals)
+        #max y min los dejo estaticos para no tener que calcularlos con cada request
+        res['max'] = 296512375.0 #max
+        res['max'] = 46101793.0 #unos cuantos mas abajo
+        # res['max'] = max(tmp)
+        res['min'] = 8.355 #min
+        # res['min'] = min(tmp)
         # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
         return HttpResponse(json.dumps(res), content_type='application/json')
+        #return HttpResponse(json.dumps(filters), content_type='application/json')
     else:
         return HttpResponseNotAllowed(['GET'])
 
