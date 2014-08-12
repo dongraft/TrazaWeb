@@ -1,6 +1,9 @@
 {% extends "main/base.html" %}
 {% load static %}
-{% block content %}
+
+<body {% block ng-app %}ng-app="traza"{% endblock %}>
+    {% block content %}
+    <div id="map"></div>
     <div id="traza-panel" class="row" ng-controller="PanelController">
         <a class="brand" href="#">
           <img src="{% static "img/hiresicon.png" %}" height="40">
@@ -37,4 +40,8 @@
           </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
+    {% block footer_scripts %}
+    {% endblock %}
+</body>
+</html>
