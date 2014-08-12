@@ -1,11 +1,12 @@
 {% extends "main/base_leftmenu.html" %}
 {% load static %}
 
-<body {% block ng-app %}ng-app="traza"{% endblock %}>
+<body {% block ng-app %}ng-app="graph" ng-controller="GraphController"{% endblock %}>
     {% block right %}
     <div id="graphs"></div>
     {% endblock %}
     {% block footer_scripts %}
+    <script src={% static "js/graph.js" %}></script>
     {% endblock %}
 </body>
 </html>
