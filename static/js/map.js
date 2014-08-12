@@ -39,86 +39,100 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
     .success(function(data, status, headers, config, statusText) {
         heatmapLayer.setData(data);
     });
-});
 
-traza.controller('PanelController', function($rootScope, $scope, $http) {
     $scope.filters = {
         times: [
             {
                 text: "Mañana (6:00 - 11:59)",
+                value: 1,
                 checked: true
             },
             {
                 text: "Tarde (12:00 - 19:59)",
+                value: 2,
                 checked: true
             },
             {
                 text: "Noche (20:00 - 5:59)",
+                value: 3,
                 checked: true
             }
         ],
         companies: [
             {
                 text: "Claro",
-                id: 1,
+                value: 1,
                 checked: true
             },
             {
                 text: "Entel",
-                id: 2,
+                value: 2,
                 checked: true
             },
             {
                 text: "Movistar",
-                id: 3,
+                value: 3,
                 checked: true
             },
             {
                 text: "Nextel",
-                id: 4,
+                value: 4,
                 checked: true
             },
             {
                 text: "Virgin Mobile",
-                id: 5,
+                value: 5,
                 checked: true
             },
             {
                 text: "VTR",
-                id: 6,
+                value: 6,
                 checked: true
             }
         ],
         networkTypes: [
             {
                 text: "EDGE",
-                id: null,
+                value: null,
                 checked: true
             },
             {
                 text: "GPRS",
-                id: null,
+                value: null,
                 checked: true
             },
             {
                 text: "3G",
-                id: null,
+                value: null,
                 checked: true
             },
             {
                 text: "3.5G",
-                id: null,
+                value: null,
                 checked: true
             },
             {
                 text: "4G LTE",
-                id: null,
+                value: null,
                 checked: true
             }
         ],
     };
 
     $scope.updateFilters = function(target) {
-
+        config = {}
+        config.params = { data:$scope.filters }
+        $http.get('/data/', config)
+        .success(function(data, status, headers, config, statusText) {
+            heatmapLayer.setData(data);
+        })
+        .error(function(data, status, headers, config) {
+          console.log(data);
+        });
+        console.log(target);
     };
+});
+
+traza.controller('PanelController', function($rootScope, $scope, $http) {
+
 });

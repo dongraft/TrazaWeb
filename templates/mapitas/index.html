@@ -10,9 +10,9 @@
     <link rel="stylesheet" href={% static "css/map.css" %} />
     {% endblock %}
 </head>
-<body {% block ng-app %}ng-app="traza"{% endblock %}>
+<body {% block ng-app %}ng-app="traza" ng-controller="MapController"{% endblock %}>
     {% block right %}
-    <div id="map" ng-controller="MapController"></div>
+    <div id="map"></div>
     {% endblock %}
     {% block footer_scripts %}
     <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>

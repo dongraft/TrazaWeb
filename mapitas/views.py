@@ -45,6 +45,12 @@ def get_data(request):
         res = {}
         data = []
         vals = []
+        
+        companies = request.GET.get('companies', None)
+        networktypes = request.GET.get('networktypes', None)
+        times = request.GET.get('times', None)
+
+        s = 1/0
         trazas = Traza.objects.all()
         for traza in trazas:
             try:
