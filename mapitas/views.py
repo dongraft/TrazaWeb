@@ -24,7 +24,8 @@ def get_data(request):
         res = {}
         data = []
         vals = []
-        tmp = []
+        stdevs = []
+        avg_ts = []
         companies = None
         networktypes = None
 
@@ -50,16 +51,24 @@ def get_data(request):
                 obj['lng'] = float(traza.lng)
                 val = locale.atof(traza.avg_t.replace(',',''))
                 obj['val'] = val
+
+                avg_ts.append(val)
+                stdevs.append(locale.atof(traza.stdev.replace(',','')))
+
                 data.append(obj)
                 # vals.append(val)
             except:
                 continue
         res['data'] = data
         #max y min los dejo estaticos para no tener que calcularlos con cada request
-        res['max'] = 296512375.0 #max
         res['max'] = 46101793.0 #unos cuantos mas abajo
-        # res['max'] = max(tmp)
         res['min'] = 8.355 #min
+
+        # xxx registros, media, stdev
+        res['total'] = len(data)
+        res['mean_stdev'] = round(float(sum(stdevs))/len(stdevs) if len(stdevs) > 0 else float('nan'),3)
+        res['mean_avg_t'] = round(float(sum(avg_ts))/len(avg_ts) if len(avg_ts) > 0 else float('nan'),3)
+
         # res['min'] = min(tmp)
         # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
         return HttpResponse(json.dumps(res), content_type='application/json')
