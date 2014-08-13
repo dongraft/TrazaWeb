@@ -1,4 +1,4 @@
-var traza = angular.module('traza', [], function($interpolateProvider) {
+var traza = angular.module('traza', ['uiSlider'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
 });
@@ -11,10 +11,9 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         center: [-33.43782061488737, -70.65045297145844],
         zoom: 12,
         detectRetina: true
-    })
-    .locate({setView : true, maxZoom: 14});
+    });
 
-    var heatmap_cfg = {
+    $scope.heatmap_cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         radius: 0.003,
         maxOpacity: .8,
@@ -34,8 +33,8 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         blur: 1
     };
 
-    var heatmapLayer = new HeatmapOverlay(heatmap_cfg);
-    $scope.map.addLayer(heatmapLayer);
+    $scope.heatmapLayer = new HeatmapOverlay($scope.heatmap_cfg);
+    $scope.map.addLayer($scope.heatmapLayer);
 
     $scope.filters = {
         times: [
@@ -123,6 +122,8 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         stddev: 0
     }
 
+    $scope.max = 0;
+
     $scope.updateFilters = function(target) {
         //console.log($scope.filters.times);
         config = {}
@@ -130,21 +131,28 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         $http.get('/data/', config)
         .success(function(data, status, headers, config, statusText) {
             if(data.data.length == 0){
-                heatmapLayer._heatmap.setData({data:[]});
+                $scope.heatmapLayer._heatmap.setData({data:[]});
             } else {
                 console.log(data);
-                heatmapLayer.setData(data);
+                $scope.data = data;
+                $scope.max = data.max;
+                $scope.heatmapLayer.setData(data);
             }
             $scope.stats.total = data.total;
             $scope.stats.avg = data.average;
             $scope.stats.stddev = data.stddev;
         })
         .error(function(data, status, headers, config) {
-            data;
         });
     };
 
     $scope.updateFilters();
+
+    $scope.updateHeatmapCgf = function(){
+        $scope.data.max = $scope.max;
+        $scope.heatmapLayer.setData($scope.data);
+        $scope.heatmapLayer._update();
+    };
 });
 
 traza.controller('PanelController', function($rootScope, $scope, $http) {
