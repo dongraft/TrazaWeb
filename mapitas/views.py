@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import locale
+import math
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render
 from django.db.models import Max
@@ -66,8 +67,13 @@ def get_data(request):
 
         # xxx registros, media, stdev
         res['total'] = len(data)
-        res['mean_stdev'] = round(float(sum(stdevs))/len(stdevs) if len(stdevs) > 0 else float('nan'),3)
-        res['mean_avg_t'] = round(float(sum(avg_ts))/len(avg_ts) if len(avg_ts) > 0 else float('nan'),3)
+
+        def average(s): return sum(s) * 1.0 / len(s)
+        avg = average(avg_ts)
+        variance = map(lambda x: (x - avg)**2, avg_ts)
+
+        res['stddev'] = round(math.sqrt(average(variance)),3)
+        res['average'] = round(avg,3)
 
         # res['min'] = min(tmp)
         # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))
