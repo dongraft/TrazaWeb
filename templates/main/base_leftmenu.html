@@ -50,11 +50,11 @@
           <div class="panel-body">
             <h6>Radio</h6>
             <div>
-                <slider floor="0.001" ceiling="0.01" step="0.0001" precision="4" ng-model="heatmap_cfg.radius" ng-mouseup="updateHeatmapCgf()"></slider>
+                <slider floor="0.001" ceiling="0.01" step="0.0001" precision="4" ng-model="heatmap_cfg.radius" ng-mousemove="updateHeatmapCgf()"></slider>
             </div>
             <h6>Max</h6>
             <div>
-                <slider floor="10" ceiling="5000" step="1" precision="3" ng-model="max" ng-mouseup="updateHeatmapCgf()"></slider>
+                <slider floor="10" ceiling="5000" step="1" precision="3" ng-model="max" ng-mousemove="updateHeatmapCgf()"></slider>
             </div>
 
           </div>

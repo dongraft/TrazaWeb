@@ -149,9 +149,11 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
     $scope.updateFilters();
 
     $scope.updateHeatmapCgf = function(){
-        $scope.data.max = $scope.max;
-        $scope.heatmapLayer.setData($scope.data);
-        $scope.heatmapLayer._update();
+        if($scope.data != undefined) {
+            $scope.data.max = $scope.max;
+            $scope.heatmapLayer.setData($scope.data);
+            $scope.heatmapLayer._update();
+        }
     };
 });
 
