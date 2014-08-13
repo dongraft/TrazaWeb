@@ -14,7 +14,7 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
     })
     .locate({setView : true, maxZoom: 14});
 
-    var heatmapLayer = new HeatmapOverlay({
+    var heatmap_cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         "radius": 0.004,
         "maxOpacity": .9,
@@ -31,8 +31,9 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         lngField: 'lng',
         // which field name in your data represents the data value - default "value"
         valueField: 'val'
-    });
+    };
 
+    var heatmapLayer = new HeatmapOverlay(heatmap_cfg);
     $scope.map.addLayer(heatmapLayer);
 
     $http.get('/data/')
@@ -44,15 +45,15 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         times: [
             {
                 text: "Mañana (6:00 - 11:59)",
-                value: 6,
+                value: 1,
                 checked: true
             },{
                 text: "Tarde (12:00 - 19:59)",
-                value: 12,
+                value: 2,
                 checked: true
             },{
                 text: "Noche (20:00 - 5:59)",
-                value: 20,
+                value: 3,
                 checked: true
             }
         ],
@@ -121,16 +122,19 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
     };
 
     $scope.updateFilters = function(target) {
+        //console.log($scope.filters.times);
         config = {}
         config.params = { data:$scope.filters }
         $http.get('/data/', config)
         .success(function(data, status, headers, config, statusText) {
-            heatmapLayer.setData(data);
+            if(data.data.length == 0){
+                heatmapLayer._heatmap.setData({data:[]});
+            } else {
+                heatmapLayer.setData(data);
+            }
         })
         .error(function(data, status, headers, config) {
-          console.log(data);
         });
-        console.log(target);
     };
 });
 

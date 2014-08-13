@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import locale
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render
 from django.db.models import Max
 from django.db.models import Min
@@ -30,12 +30,12 @@ def get_data(request):
 
         prefilters = request.GET.get('data', None)
         if prefilters:
-            filters = json.loads(prefilters) if prefilters else None
+            filters = json.loads(prefilters)
             companies = [str(company['value'])+"\n" for company in filters['companies'] if company['checked']]
             networktypes = [str(network_type['value']) for network_type in filters['networkTypes'] if network_type['checked']]
             times = [time['value'] for time in filters['times'] if time['checked']]
-        if companies and networktypes:
-            trazas = Traza.objects.filter(compania__in=companies, networktype__in=networktypes)
+            trazas = filter_times(Traza.objects.filter(compania__in=companies, networktype__in=networktypes), times)
+
         else:
             trazas = Traza.objects.all()
 
@@ -70,3 +70,22 @@ def get_data(request):
 
 def graphs(request):
     return render(request, 'mapitas/graphs.html', {})
+
+def filter_times(trazas, times):
+    new_trazas = []
+    for traza in trazas:
+        try:
+            h = int(traza.timestamp[9:11])
+
+            # if <esta seteado el filtro> and <condicion de hora de inicio> and <condicion de hora final>
+            if 1 in times and h >= 6 and h <12:
+                new_trazas.append(traza)
+            elif 2 in times and h >= 12 and h <20:
+                new_trazas.append(traza)
+            elif 3 in times and (h < 6 or h >= 20):
+                new_trazas.append(traza)
+        except:
+            print 'ts: %s\n'%traza.timestamp
+            continue
+    return new_trazas
+
