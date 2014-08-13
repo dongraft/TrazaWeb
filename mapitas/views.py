@@ -66,14 +66,18 @@ def get_data(request):
         res['min'] = 8.355 #min
 
         # xxx registros, media, stdev
-        res['total'] = len(data)
+        data_len = len(data)
+        res['total'] = data_len
+        if data_len:
+            def average(s): return sum(s) * 1.0 / len(s)
+            avg = average(avg_ts)
+            variance = map(lambda x: (x - avg)**2, avg_ts)
 
-        def average(s): return sum(s) * 1.0 / len(s)
-        avg = average(avg_ts)
-        variance = map(lambda x: (x - avg)**2, avg_ts)
-
-        res['stddev'] = round(math.sqrt(average(variance)),3)
-        res['average'] = round(avg,3)
+            res['stddev'] = round(math.sqrt(average(variance)),3)
+            res['average'] = round(avg,3)
+        else:
+            res['stddev'] = 0
+            res['average'] = 0
 
         # res['min'] = min(tmp)
         # res['min'] = int(float(trazas.aggregate(Min('avg_t'))['avg_t__min'].replace(",","")))

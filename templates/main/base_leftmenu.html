@@ -25,6 +25,26 @@
           Traza
         </a>
         <div class="panel panel-default">
+          <div class="panel-body">
+            <table>
+              <tbody>
+                <tr>
+                  <th class="text-right">Total:</th>
+                  <td>&nbsp; {$ stats.total $}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Promedio:</th>
+                  <td>&nbsp; {$ stats.avg $} ms</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Stdev:</th>
+                  <td>&nbsp; {$ stats.stddev $} ms</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-default">
           <div class="panel-heading">
             <h4>Hora</h4>
           </div>
@@ -54,7 +74,7 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

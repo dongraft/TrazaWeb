@@ -36,11 +36,6 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
     var heatmapLayer = new HeatmapOverlay(heatmap_cfg);
     $scope.map.addLayer(heatmapLayer);
 
-    $http.get('/data/')
-    .success(function(data, status, headers, config, statusText) {
-        heatmapLayer.setData(data);
-    });
-
     $scope.filters = {
         times: [
             {
@@ -121,6 +116,12 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
         ],
     };
 
+    $scope.stats = {
+        total: 0,
+        avg: 0,
+        stddev: 0
+    }
+
     $scope.updateFilters = function(target) {
         //console.log($scope.filters.times);
         config = {}
@@ -130,12 +131,18 @@ traza.controller('MapController', function($rootScope, $scope, $http) {
             if(data.data.length == 0){
                 heatmapLayer._heatmap.setData({data:[]});
             } else {
+                console.log(data);
                 heatmapLayer.setData(data);
             }
+            $scope.stats.total = data.total;
+            $scope.stats.avg = data.average;
+            $scope.stats.stddev = data.stddev;
         })
         .error(function(data, status, headers, config) {
         });
     };
+
+    $scope.updateFilters();
 });
 
 traza.controller('PanelController', function($rootScope, $scope, $http) {
